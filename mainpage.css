@@ -1,0 +1,22 @@
+.banner-left-sec {
+    width: auto;
+    height: 400px;
+    background-color: pink;
+}
+
+.banner-right-sec {
+    width: auto;
+    height: 400px;
+    background-color: pink;
+}
+
+.banner > .row {
+    width: 100%;
+    gap: 10px;
+    justify-content: center;
+}
+
+.banner > .row .col {
+    flex: 1 1 auto;
+    padding-inline: 0;
+}
