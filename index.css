@@ -2,7 +2,17 @@
 #navbarSupportedContent {
     margin-inline: auto;
 }
+
 /* Bootstrap Overrrides END */
 
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('./fonts/Roboto-Regular.ttf') format('woff2');
+}
 
-
+:root {
+    --yellow: rgb(245, 197, 24)
+}

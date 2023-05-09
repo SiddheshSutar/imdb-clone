@@ -20,3 +20,11 @@
     flex: 1 1 auto;
     padding-inline: 0;
 }
+
+.section-title {
+    color: var(--yellow);
+    font-size: 3em;
+    font-weight: bolder;
+    text-shadow: 2px 2px black;
+    font-family: 'Roboto';
+}
