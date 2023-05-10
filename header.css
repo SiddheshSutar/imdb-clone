@@ -10,3 +10,14 @@
     min-width: 300%;
 }
 
+.search-form {
+    position: relative;
+}
+
+#search-result-container {
+    position: absolute;
+    top: 40px;
+    min-width: 300%;
+
+}
+
