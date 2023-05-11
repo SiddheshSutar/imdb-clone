@@ -18,6 +18,17 @@
     position: absolute;
     top: 40px;
     min-width: 300%;
+    display: none;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 3px;
+    max-height: 300px;
+    overflow-y: scroll;
+}
 
+.movie-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
