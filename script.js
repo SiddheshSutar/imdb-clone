@@ -1,10 +1,18 @@
+/** Constants/Variables START */
 const omdbKey = '2165061e'
 const omdbUrl = `http://www.omdbapi.com/?apikey=${omdbKey}`
 
+let favoriteMovies = []
+
+const BANNER_CAROUSEL_DIV_NAME = "banner-carousel"
+const ORIGINALS_CAROUSEL_DIV_NAME = "originals-carousel"
+const CAROUSEL_ITEM_DIV_NAME = "carousel-item"
+
 var mainSearchBtn = document.getElementById('main-search')
 const searchDiv = document.getElementById("search-result-container")
-
-let favoriteMovies = [] 
+const bannerCarousel = document.getElementById(BANNER_CAROUSEL_DIV_NAME)
+const originalsCarousel = document.getElementById(ORIGINALS_CAROUSEL_DIV_NAME)
+/** Constants/Variables END */
 
 /** function to simulate autocomplete */
 function debounce(cb, delay = 250) {
@@ -51,13 +59,12 @@ async function fetchBannerData(search) {
 
         const response = await fetch(url);
         const data = await response.json();
-
-        const bannerCarousel = document.getElementById('banner-carousel')
+        
 
         if(data && data.Search.length > 0) {
-            data.Search.slice(0, 2).map((obj, index) => {
+            data.Search.slice(0, 5).map((obj, index) => {
                 const listItem = `
-                <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                <div class="${CAROUSEL_ITEM_DIV_NAME} ${index === 0 ? 'active' : ''}">
                     <img src=${obj.Poster} class="d-block" alt="...">
                     <div class="title">${obj.Title}<div>
                 </div>
@@ -67,7 +74,59 @@ async function fetchBannerData(search) {
             })
         }
 
-        autoSlideBanner()
+        autoSlideBanner(bannerCarousel)
+        return data;
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+async function fetchOriginalsData(search) {
+
+    const url = `${omdbUrl}&s=imdb`;
+    try {
+
+        const response = await fetch(url);
+        const data = await response.json();
+        
+
+        if(data && data.Search.length > 0) {
+            let slideIndex = 0
+            let show = false
+
+            let listItem = ''
+            data.Search.slice(0, 15).map((obj, index) => {
+console.log('hex; ', listItem)
+
+                if(
+                    data.Search[index] === undefined || 
+                    data.Search[index + 1] === undefined || 
+                    data.Search[index + 2] === undefined
+                ) return 
+
+                listItem += `
+                        <div class="originals ${CAROUSEL_ITEM_DIV_NAME} ${index === 0 ? 'active' : ''}">
+                            <div>
+                                <img src=${data.Search[index].Poster} class="d-block" alt="...">
+                                <div class="title">${data.Search[index].Title}<div>
+                            </div>
+                            <div>
+                                <img src=${data.Search[index + 1].Poster} class="d-block" alt="...">
+                                <div class="title">${data.Search[index + 1].Title}<div>
+                            </div>
+                            <div>
+                                <img src=${data.Search[index + 2].Poster} class="d-block" alt="...">
+                                <div class="title">${data.Search[index + 2].Title}<div>
+                            </div>
+                        </div>
+                    `
+
+            })
+            // originalsCarousel.insertAdjacentHTML('afterbegin', listItem)
+            originalsCarousel.appendChild(listItem)
+        }
+
+        autoSlideBanner(originalsCarousel)
         return data;
 
     } catch (err) {
@@ -75,9 +134,14 @@ async function fetchBannerData(search) {
     }
 }
 
-function autoSlideBanner () {
-    const bannerCarousel = document.getElementById('banner-carousel')
-    const slides = bannerCarousel.getElementsByClassName("carousel-item")
+
+window.handlePageLoad = () => {
+    fetchBannerData()
+    fetchOriginalsData()
+}
+
+function autoSlideBanner (carouselElement) {
+    const slides = carouselElement.getElementsByClassName(CAROUSEL_ITEM_DIV_NAME)
 
     if(!slides) return
 
@@ -94,10 +158,6 @@ function autoSlideBanner () {
         })
     }, 2000);
 
-}
-
-window.handlePageLoad = () => {
-    fetchBannerData()
 }
 
 function handleAddFavorite(event, item) {

@@ -32,3 +32,12 @@
 .page-container {
     padding-bottom: 2rem;
 }
+
+.one-section {
+    padding-block: 3em;
+}
+
+.originals-carousel .carousel-item.active,
+.originals-carousel .carousel-item {
+    display: flex;
+}
