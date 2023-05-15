@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./index.css" />
     <link rel="stylesheet" href="./header.css" />
+    <link rel="stylesheet" href="./banner.css" />
     <link rel="stylesheet" href="./mainpage.css" />
     <script defer src="script.js"></script>
     <script defer src="random.js"></script>
@@ -22,7 +23,7 @@
     <title>IMDB Clone</title>
 </head>
 
-<body>
+<body onload="window.handlePageLoad()">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="#">
@@ -73,27 +74,18 @@
             </div>
         </div>
     </nav>
-    <div class="page container">
+    <!-- <div class="page container">
         <div class="banner">
             <div class="row">
                 <div class="col col-6 banner-left-sec"></div>
                 <div class="col col-5 banner-right-sec"></div>
             </div>
         </div>
-    </div>
-    <div class="page container">
+    </div> -->
+    <div class="page container page-container">
         <div class="section-title">Featured Today</div>
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="..." class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
-                </div>
+        <div id="carouselExampleControls" class="banner-carousel carousel slide" data-bs-interval="false">
+            <div class="carousel-inner" id="banner-carousel">
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
                 data-bs-slide="prev">

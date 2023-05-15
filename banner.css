@@ -1,0 +1,42 @@
+#banner-carousel img {
+    width: 72%;
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 16/9;
+    max-height: 500px;
+    margin-inline: auto;
+}
+
+.banner-carousel .carousel-control-next-icon,
+.banner-carousel .carousel-control-prev-icon {
+    width: 4rem;
+    height: 4rem;
+    background-size: 50% 50%;
+    background-color: black;
+    background-position: center;
+    border-radius: 50%;
+}
+
+
+.banner-carousel .carousel-item {
+    position: relative;
+}
+.banner-carousel .title {
+    position: absolute;
+    inset: auto auto 0 50%;
+    z-index: 2;
+    font-size: 3rem;
+    font-weight: bold;
+    transform: translateX(-50%);
+    line-height: 1;
+    letter-spacing: 7px;
+}
+.banner-carousel .carousel-item::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:  linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(9,9,121,0) 48%);
+
+    z-index: 1;
+}

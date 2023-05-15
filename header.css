@@ -32,3 +32,7 @@
     justify-content: space-between;
 }
 
+.list-card .img {
+    width: 100%;
+}
+
