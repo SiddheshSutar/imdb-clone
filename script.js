@@ -74,14 +74,23 @@ async function fetchBannerData(search) {
             })
         }
 
-        autoSlideBanner(bannerCarousel)
         return data;
 
     } catch (err) {
         console.log(err);
     }
 }
+
+Array.prototype.chunk = function ( n ) {
+    if ( !this.length ) {
+        return [];
+    }
+    return [ this.slice( 0, n ) ].concat( this.slice(n).chunk(n) );
+};
+
 async function fetchOriginalsData(search) {
+
+    const parser = new DOMParser();
 
     const url = `${omdbUrl}&s=imdb`;
     try {
@@ -95,38 +104,44 @@ async function fetchOriginalsData(search) {
             let show = false
 
             let listItem = ''
-            data.Search.slice(0, 15).map((obj, index) => {
-console.log('hex; ', listItem)
+
+            data.Search.chunk(3)
+            .forEach((obj, index) => {
+                console.log('hex; ', obj)
 
                 if(
-                    data.Search[index] === undefined || 
-                    data.Search[index + 1] === undefined || 
-                    data.Search[index + 2] === undefined
+                    obj[0] === undefined || 
+                    obj[1] === undefined || 
+                    obj[2] === undefined
                 ) return 
 
                 listItem += `
-                        <div class="originals ${CAROUSEL_ITEM_DIV_NAME} ${index === 0 ? 'active' : ''}">
-                            <div>
-                                <img src=${data.Search[index].Poster} class="d-block" alt="...">
-                                <div class="title">${data.Search[index].Title}<div>
-                            </div>
-                            <div>
-                                <img src=${data.Search[index + 1].Poster} class="d-block" alt="...">
-                                <div class="title">${data.Search[index + 1].Title}<div>
-                            </div>
-                            <div>
-                                <img src=${data.Search[index + 2].Poster} class="d-block" alt="...">
-                                <div class="title">${data.Search[index + 2].Title}<div>
+                        <div class="originals ${index} ${CAROUSEL_ITEM_DIV_NAME} ${index === 0 ? 'active' : ''}">
+                            <div>${
+                            obj[0] ? `<div class="og-card-wrapper">
+                                <img src=${obj[0].Poster} class="d-block" alt="...">
+                                <div class="title">${obj[0].Title}</div>
+                            </div>` : ``
+                            }${
+                                obj[1] ? `<div class="og-card-wrapper">
+                                    <img src=${obj[1].Poster} class="d-block" alt="...">
+                                    <div class="title">${obj[1].Title}</div>
+                                </div>` : ``
+                            }${
+                                obj[2] ? `<div class="og-card-wrapper">
+                                    <img src=${obj[2].Poster} class="d-block" alt="...">
+                                    <div class="title">${obj[2].Title}</div>
+                                </div>` : ``
+                            }
                             </div>
                         </div>
                     `
 
             })
-            // originalsCarousel.insertAdjacentHTML('afterbegin', listItem)
-            originalsCarousel.appendChild(listItem)
+            originalsCarousel.innerHTML = parser.parseFromString(listItem, 'text/html').body.innerHTML
         }
 
-        autoSlideBanner(originalsCarousel)
+        // autoSlideBanner(originalsCarousel)
         return data;
 
     } catch (err) {
@@ -148,7 +163,7 @@ function autoSlideBanner (carouselElement) {
     let count = slides.length
     const autoSlideInterval = setInterval(() => {
         if(count >= 2* slides.length) clearInterval(autoSlideInterval)
-        Array.from(slides).forEach((index) => {
+        Array.from(slides).forEach((slide, index) => {
             const isActive = Array.from(slide.classList).includes("active")
             // if(isActive) Array.from(slide.classList).filter(clsName => clsName !== )
             if(isActive) {

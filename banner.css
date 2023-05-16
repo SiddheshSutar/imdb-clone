@@ -1,3 +1,26 @@
+.banner-left-sec {
+    width: auto;
+    height: 400px;
+    background-color: pink;
+}
+
+.banner-right-sec {
+    width: auto;
+    height: 400px;
+    background-color: pink;
+}
+
+.banner > .row {
+    width: 100%;
+    gap: 10px;
+    justify-content: center;
+}
+
+.banner > .row .col {
+    flex: 1 1 auto;
+    padding-inline: 0;
+}
+
 #banner-carousel img {
     width: 72%;
     object-fit: cover;
@@ -31,12 +54,17 @@
     line-height: 1;
     letter-spacing: 7px;
 }
+
+#banner-carousel img,
+.banner-carousel .title {
+    cursor: pointer;
+}
 .banner-carousel .carousel-item::before {
     content: '';
     position: absolute;
     width: 100%;
     height: 100%;
     background:  linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(9,9,121,0) 48%);
-
-    z-index: 1;
+    z-index: 0;
+    pointer-events: none;
 }
