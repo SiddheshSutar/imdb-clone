@@ -37,6 +37,9 @@ const handleMainSearch = debounce((e) => {
     fetchMovies(e.target.value)
 }, 1000)
 
+const handleBannerItemClick = (e) => {
+    window.open(`/moviedetails.html?q=${e.target.getAttribute('data-id')}`, '_self')
+}
 
 async function fetchMovies(search) {
 
@@ -65,7 +68,7 @@ async function fetchBannerData(search) {
             data.Search.slice(0, 5).map((obj, index) => {
                 const listItem = `
                 <div class="${CAROUSEL_ITEM_DIV_NAME} ${index === 0 ? 'active' : ''}">
-                    <img src=${obj.Poster} class="d-block" alt="...">
+                    <img src=${obj.Poster} class="d-block banner-item-click-track" alt="..." data-id=${obj.imdbID}>
                     <div class="title">${obj.Title}<div>
                 </div>
             `
@@ -73,6 +76,12 @@ async function fetchBannerData(search) {
             bannerCarousel.insertAdjacentHTML('afterbegin', listItem)
             })
         }
+
+
+        const bannerCard = document.getElementsByClassName("banner-item-click-track")
+
+        Array.from(bannerCard).forEach(item => item.addEventListener('click', e => handleBannerItemClick(e)))
+        console.log(Array.from(bannerCard))
 
         return data;
 
@@ -107,7 +116,6 @@ async function fetchOriginalsData(search) {
 
             data.Search.chunk(3)
             .forEach((obj, index) => {
-                console.log('hex; ', obj)
 
                 if(
                     obj[0] === undefined || 
@@ -155,6 +163,12 @@ window.handlePageLoad = () => {
     fetchOriginalsData()
 }
 
+window.handleMovieDetailsPageLoad = () => {
+    console.log()
+    const selectedMovieId = location.search.split("=")[1]
+    selectedMovieId && fetchSelectedMovieData(selectedMovieId)
+}
+
 function autoSlideBanner (carouselElement) {
     const slides = carouselElement.getElementsByClassName(CAROUSEL_ITEM_DIV_NAME)
 
@@ -191,14 +205,14 @@ function createMovielist(response) {
                     <div class="container">
                         <div class="row">
                             <div class="col col-3 flex-grow-0">
-                                <img src=${item.Poster} class="img"
+                                <img src=${item.Poster} class="img'
                                     width="auto" height="140" alt="movie">
                             </div>
                             <div class="col col-7 movie-col">
                                 <div class="title">${item.Title}</div>
                                 <div class="year">${item.Year}</div>
                                 <div class="watchlist-btn">
-                                    <button class="btn btn-primary" id="watchlist-btn-${index}" data-id=${item.imdbID} type="button"
+                                    <button class="btn btn-primary" id="watchlist-btn" data-id=${item.imdbID} type="button"
                                     >Add to
                                         favorite</button>
                                 </div>
@@ -223,3 +237,18 @@ function createMovielist(response) {
     }
 }
 mainSearchBtn.addEventListener('input', e => handleMainSearch(e))
+
+async function fetchSelectedMovieData(selectedMovieId) {
+    const url = `${omdbUrl}&i=${selectedMovieId}&plot=full`;
+    
+    try {
+
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log('hex: ', data)
+    } catch(e) {
+        console.log('Error in fetchSelectedMovieData: ', e)
+    }
+}
+
+// mainSearchBtn.addEventListener('click', e => handleMainSearch(e))
