@@ -259,6 +259,9 @@ async function fetchSelectedMovieData(selectedMovieId) {
         localStorage.setItem('LS_SELECTED_IMDB_ITEM', data)
         selectedImdbItem = data
         console.log('hex: ', data)
+
+        window.loadItemDetails && window.loadItemDetails(data)
+
     } catch(e) {
         console.log('Error in fetchSelectedMovieData: ', e)
     }

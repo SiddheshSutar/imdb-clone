@@ -1,0 +1,28 @@
+.dt-title-row>.col:not(:nth-child(1)),
+.creators-row>div,
+.actors-row>div {
+    flex-grow: 0;
+}
+
+#imdb-rating-nums,
+#creator-list-content,
+#actor-list-content {
+    display: flex;
+}
+
+#movie-title {
+    font-family: 'Roboto';
+    font-weight: bold;
+    font-size: 3rem;
+    line-height: 1;
+}
+
+#image-poster {
+    min-width: 380px;
+}
+
+#creator-list-content,
+#actor-list-content {
+    gap: 10px;
+    white-space: nowrap;
+}
