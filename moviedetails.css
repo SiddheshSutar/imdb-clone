@@ -1,12 +1,15 @@
 .dt-title-row>.col:not(:nth-child(1)),
 .creators-row>div,
-.actors-row>div {
+.actors-row>div,
+.info-list-row > div,
+#genre > div {
     flex-grow: 0;
 }
 
 #imdb-rating-nums,
 #creator-list-content,
-#actor-list-content {
+#actor-list-content,
+#genre {
     display: flex;
 }
 .movie-plot-row {
@@ -29,7 +32,8 @@
 }
 
 #creator-list-content,
-#actor-list-content {
+#actor-list-content,
+.info-list-row > div {
     gap: 10px;
     white-space: nowrap;
 }

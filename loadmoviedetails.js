@@ -5,13 +5,54 @@ const imagePoster = document.getElementById('image-poster')
 const moviePlot = document.getElementById('movie-plot')
 const creatorListContent = document.getElementById('creator-list-content')
 const actorListContent = document.getElementById('actor-list-content')
+const awards = document.getElementById('awards')
+const infoListContent = document.getElementById('info-list-content')
+const genreContent = document.getElementById('genre')
+const earned = document.getElementById('earned')
+const metaScore = document.getElementById('meta-score')
 
 const parser = new DOMParser();
 
 const convertToHtml = (htmlString) => parser.parseFromString(htmlString, 'text/html').body.innerHTML
 
-window.loadItemDetails = (data) => {
-    const selectedItemData = JSON.parse(JSON.stringify(data))
+function loader2(selectedItemData) {
+    const actorsListElement = selectedItemData.Actors
+        .split(',')
+        .reduce((acc, item) => acc + `<div>${item}</div>`)
+    actorListContent.innerHTML = convertToHtml(actorsListElement)
+
+
+    awards.innerHTML = selectedItemData.Awards
+
+    infoListString = `
+    <div class="row info-list-row">
+        <div class="col">
+            ${selectedItemData.Type}
+        </div>
+        <div class="col">
+            ${selectedItemData.Year}
+        </div>
+        <div class="col">
+            ${selectedItemData.Runtime}
+        </div>
+    </div>
+`
+    infoListContent.innerHTML = convertToHtml(infoListString)
+
+
+    const genreListElement = selectedItemData.Genre
+        .split(',')
+        .map(item => `<div class="col">${item}</div>`)
+        .reduce((acc, item) => acc + item)
+    genreContent.innerHTML = convertToHtml(genreListElement)
+
+
+    earned.innerHTML = selectedItemData.BoxOffice
+    metaScore.innerHTML = selectedItemData.Metascore
+
+}
+
+function loader1(selectedItemData) {
 
     if (selectedItemData.Response !== "True") return
 
@@ -27,11 +68,14 @@ window.loadItemDetails = (data) => {
     `
     creatorListContent.innerHTML = convertToHtml(creatorsListElement)
 
+}
 
-    const actorsListElement = selectedItemData.Actors
-        .split(',')
-        .reduce((acc, item) => acc + `<div>${item}</div>`)
-    actorListContent.innerHTML = convertToHtml(actorsListElement)
+window.loadItemDetails = (data) => {
+    const selectedItemData = JSON.parse(JSON.stringify(data))
 
+    loader1(selectedItemData)
+    loader2(selectedItemData)
     console.log('hex2: ', movieTitle, data)
 }
+
+
