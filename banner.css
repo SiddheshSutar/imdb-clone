@@ -24,7 +24,7 @@
 #banner-carousel img {
     width: 72%;
     object-fit: cover;
-    object-position: center;
+    object-position: top;
     aspect-ratio: 16/9;
     max-height: 500px;
     margin-inline: auto;

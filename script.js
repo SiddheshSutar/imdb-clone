@@ -1,4 +1,4 @@
-/** Constants/Variables START */
+/** Constants START */
 const omdbKey = '2165061e'
 const omdbUrl = `http://www.omdbapi.com/?apikey=${omdbKey}`
 
@@ -8,11 +8,17 @@ const BANNER_CAROUSEL_DIV_NAME = "banner-carousel"
 const ORIGINALS_CAROUSEL_DIV_NAME = "originals-carousel"
 const CAROUSEL_ITEM_DIV_NAME = "carousel-item"
 
+const LS_SELECTED_IMDB_ITEM = 'LS_SELECTED_IMDB_ITEM'
+
 var mainSearchBtn = document.getElementById('main-search')
 const searchDiv = document.getElementById("search-result-container")
 const bannerCarousel = document.getElementById(BANNER_CAROUSEL_DIV_NAME)
 const originalsCarousel = document.getElementById(ORIGINALS_CAROUSEL_DIV_NAME)
-/** Constants/Variables END */
+/** Constants END */
+
+/** State variables START */
+let selectedImdbItem = null
+/** State variables END */
 
 /** function to simulate autocomplete */
 function debounce(cb, delay = 250) {
@@ -157,10 +163,15 @@ async function fetchOriginalsData(search) {
     }
 }
 
+const resetLS = () => {
+    localStorage.removeItem('LS_SELECTED_IMDB_ITEM')
+}
+
 
 window.handlePageLoad = () => {
     fetchBannerData()
     fetchOriginalsData()
+    resetLS()
 }
 
 window.handleMovieDetailsPageLoad = () => {
@@ -245,6 +256,8 @@ async function fetchSelectedMovieData(selectedMovieId) {
 
         const response = await fetch(url);
         const data = await response.json();
+        localStorage.setItem('LS_SELECTED_IMDB_ITEM', data)
+        selectedImdbItem = data
         console.log('hex: ', data)
     } catch(e) {
         console.log('Error in fetchSelectedMovieData: ', e)
