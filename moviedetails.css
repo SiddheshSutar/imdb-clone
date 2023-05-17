@@ -1,3 +1,18 @@
+.md-page::before {
+    /* content: '';
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    background: linear-gradient(86deg, rgba(0,0,0,1) 0%, rgba(97,97,95,1) 48%, rgba(0,0,0,1) 98%); */
+}
+
+body {
+    background: linear-gradient(86deg, rgba(0,0,0,1) 0%, rgba(97,97,95,1) 48%, rgba(0,0,0,1) 98%);
+
+}
 .dt-title-row>.col:not(:nth-child(1)),
 .creators-row>div,
 .actors-row>div,
@@ -25,6 +40,8 @@
     font-weight: bold;
     font-size: 3rem;
     line-height: 1;
+    mix-blend-mode: overlay;
+    color:var(--white);
 }
 
 #image-poster {
@@ -36,4 +53,16 @@
 .info-list-row > div {
     gap: 10px;
     white-space: nowrap;
+}
+
+.dt-title-row {
+    padding-block: var(--section-spacing);
+}
+
+#movie-plot {
+    font-family: 'Ubuntu-Regular';
+    font-size: larger;
+    color: var(--white);
+    letter-spacing: 1px;
+    line-height: 1.8;
 }

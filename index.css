@@ -12,7 +12,16 @@
     font-display: swap;
     src: url('./fonts/Roboto-Regular.ttf') format('woff2');
 }
+@font-face {
+    font-family: 'Ubuntu-Regular';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('./fonts/Ubuntu-Regular.ttf') format('woff2');
+}
 
 :root {
-    --yellow: rgb(245, 197, 24)
+    --yellow: rgb(245, 197, 24);
+    --white: #fff;
+    --section-spacing: 2rem;
 }

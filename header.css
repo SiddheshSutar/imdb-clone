@@ -36,3 +36,14 @@
     width: 100%;
 }
 
+.navbar {
+    border-bottom: 1px solid #fff;
+    background: linear-gradient(86deg, rgba(0,0,0,1) 0%, rgba(97,97,95,1) 48%, rgba(0,0,0,1) 98%);
+    position: sticky;
+    top: 0;
+}
+
+.nav-css.navbar-light .navbar-nav .nav-link.active {
+    color: var(--white);
+}
+
