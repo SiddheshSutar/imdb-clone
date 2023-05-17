@@ -9,7 +9,14 @@
 #actor-list-content {
     display: flex;
 }
-
+.movie-plot-row {
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+.movie-plot-row > div:last-child {
+    flex-grow: 0;
+}
 #movie-title {
     font-family: 'Roboto';
     font-weight: bold;
