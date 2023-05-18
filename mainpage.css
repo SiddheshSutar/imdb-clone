@@ -6,6 +6,11 @@
     font-family: 'Roboto';
 }
 
+body {
+    background: linear-gradient(86deg, rgba(0,0,0,1) 0%, rgba(97,97,95,1) 48%, rgba(0,0,0,1) 98%);
+
+}
+
 .page-container {
     padding-bottom: 2rem;
 }
@@ -36,6 +41,11 @@
     flex-direction: column;
     flex-grow: 0.2;
     cursor: pointer;
+}
+
+.og-card-wrapper .title {
+    color: var(--white);
+    letter-spacing: 2px;
 }
 
 

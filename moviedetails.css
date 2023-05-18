@@ -136,6 +136,11 @@ body {
     color: var(--yellow);
 }
 
+#rt-rating {
+    font-size: 130%;
+
+}
+
 #awards-row {
     color: white;
     text-align: center;
