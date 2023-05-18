@@ -133,6 +133,7 @@ body {
     font-weight: bold;
     font-size: 130%;
     line-height: 1.2;
+    color: var(--yellow);
 }
 
 #awards-row {
@@ -176,38 +177,46 @@ body {
     font-size: 3em;
     padding-block: calc(1.2 * var(--section-spacing));
     margin-block: calc(1.2 * var(--section-spacing));
+    --gap: 50px;
+    gap: var(--gap);
 }
 
 #genre > div {
     position: relative;
-
+    color: #e3e3e3;
 }
 
 #genre > div::before,
 #genre > div::after {
     position: absolute;
     content: '';
-    width: 48%;
-    top: 80%;
-    height: 3%;
+    width: 70%;
+    top: 60%;
+    height: 2%;
     background-color: pink;
-    opacity: 0.5;
+    /* opacity: 0.5; */
     z-index: -1;
 }
 
 #genre > div::before {
-    left: 0;
-    background: linear-gradient(90deg, rgb(235, 235, 235) 0%, rgba(235, 235, 235, 0.473) 50% , transparent 100%);
+    left: calc(-0.5*var(--gap));
+    background: linear-gradient(90deg, var(--yellow) 0%, #ffdd6350 10% , transparent 100%);
 
 }
 #genre > div::after {
-    right: 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(235, 235, 235, 0.473) 50%, rgb(235, 235, 235) 100%);
+    /* display: none; */
+    right: calc(-0.5*var(--gap));
+    background: linear-gradient(90deg, transparent 0%, #ffdd6350 90%, var(--yellow) 100%);
 
 }
 #genre > div:nth-child(1):before,
 #genre > div:last-child:after
  {
     display: none;
+}
+
+#trivia {
+    color: var(--white);
+    text-align: center;
 }
 
