@@ -58,13 +58,17 @@ body {
     padding-block: var(--section-spacing);
 }
 
+#actor-list-content {
+    gap: 20px;
+}
+
 #movie-plot {
     font-family: 'Ubuntu-Regular';
     font-size: larger;
     color: var(--white);
     letter-spacing: 1px;
     line-height: 1.8;
-    mix-blend-mode: overlay;
+    mix-blend-mode: exclusion;
 }
 
 .info-list-row {
@@ -129,4 +133,40 @@ body {
     font-weight: bold;
     font-size: 130%;
     line-height: 1.2;
+}
+
+#awards-row {
+    color: white;
+    text-align: center;
+    padding-block: calc(1.2 * var(--section-spacing));
+    margin-block: calc(1.2 * var(--section-spacing));
+    position: relative;
+    width: fit-content;
+    margin-inline: auto;
+    font-size: 2rem;
+    letter-spacing: 6px;
+    line-height: 1;
+}
+
+#awards-row blockquote {
+    margin: revert;
+}
+
+
+#awards-row::before,
+#awards-row::after {
+    
+    position: absolute;
+    color: var(--blue);
+    z-index: 3;
+    font-size: 8rem;
+}
+
+#awards-row::before {
+    content: open-quote;
+    inset: -20px auto auto -20px;
+}
+#awards-row::after {
+    content: close-quote;
+    inset: auto -40px -40px auto;
 }

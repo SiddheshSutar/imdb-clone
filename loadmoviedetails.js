@@ -23,7 +23,12 @@ function loader2(selectedItemData) {
     actorListContent.innerHTML = convertToHtml(actorsListElement)
 
 
-    awards.innerHTML = selectedItemData.Awards
+    if(!selectedItemData.Awards) {
+        awards.style.display = "none"
+    } else {
+        awards.innerHTML = selectedItemData.Awards
+    }
+
 
     infoListString = `
     <div class="row info-list-row">
