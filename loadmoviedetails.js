@@ -18,7 +18,8 @@ const convertToHtml = (htmlString) => parser.parseFromString(htmlString, 'text/h
 function loader2(selectedItemData) {
     const actorsListElement = selectedItemData.Actors
         .split(',')
-        .reduce((acc, item) => acc + `<div>${item}</div>`)
+        .map(item => `<div>${item}</div>`)
+        .reduce((acc, item) => acc + item)
     actorListContent.innerHTML = convertToHtml(actorsListElement)
 
 
@@ -57,7 +58,7 @@ function loader1(selectedItemData) {
     if (selectedItemData.Response !== "True") return
 
     movieTitle.innerHTML = selectedItemData.Title
-    imdbRating.innerHTML = convertToHtml(`<div id="imdb-rating-nums"><div>${selectedItemData.imdbRating}</div>/<div>10</div></div>`)
+    imdbRating.innerHTML = convertToHtml(`<div class="col" id="imdb-rating-nums"><div>${selectedItemData.imdbRating}</div>/<div>10</div></div>`)
     rtRating.innerHTML = selectedItemData.Ratings[1].Value
 
     imagePoster.src = selectedItemData.Poster

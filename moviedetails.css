@@ -40,7 +40,6 @@ body {
     font-weight: bold;
     font-size: 3rem;
     line-height: 1;
-    mix-blend-mode: overlay;
     color:var(--white);
 }
 
@@ -65,4 +64,69 @@ body {
     color: var(--white);
     letter-spacing: 1px;
     line-height: 1.8;
+    mix-blend-mode: overlay;
+}
+
+.info-list-row {
+    gap: 10px;
+}
+
+
+#info-list-content.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.info-list-row > div {
+    border-radius: 11px;
+    border: 1px solid var(--white);
+    color: var(--white);
+}
+
+#image-poster-row hr {
+    color: var(--white) !important;
+    position: relative;
+    /* left: -10px; */
+}
+
+#movie-creators-row {
+    padding-left: 0;
+}
+
+.actor-label {
+    color: var(--white);
+}
+
+#actor-list-content > div {
+    color: var(--blue);
+    font-weight: bold;
+}
+
+#actor-list-content > div:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.dt-title-col > div:nth-child(1) {
+    font-weight: bold;
+    color: gray;
+    text-transform: uppercase;
+}
+
+.dt-title-col > div:nth-child(1),
+.dt-title-col > div:nth-child(2) {
+    color: whitesmoke;
+    text-align: center;
+}
+
+#imdb-rating-nums {
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+
+}
+#imdb-rating-nums > div:nth-child(1) {
+    font-weight: bold;
+    font-size: 130%;
+    line-height: 1.2;
 }
