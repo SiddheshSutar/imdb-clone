@@ -81,7 +81,6 @@ window.loadItemDetails = (data) => {
 
     loader1(selectedItemData)
     loader2(selectedItemData)
-    console.log('hex2: ', movieTitle, data)
 }
 
 

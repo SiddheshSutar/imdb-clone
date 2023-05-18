@@ -24,6 +24,7 @@
     border-radius: 3px;
     max-height: 300px;
     overflow-y: scroll;
+    z-index: 4;
 }
 
 .movie-col {

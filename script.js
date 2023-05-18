@@ -9,6 +9,7 @@ const ORIGINALS_CAROUSEL_DIV_NAME = "originals-carousel"
 const CAROUSEL_ITEM_DIV_NAME = "carousel-item"
 
 const LS_SELECTED_IMDB_ITEM = 'LS_SELECTED_IMDB_ITEM'
+const LS_FAVORITES = 'LS_FAVORITES'
 
 var mainSearchBtn = document.getElementById('main-search')
 const searchDiv = document.getElementById("search-result-container")
@@ -87,7 +88,6 @@ async function fetchBannerData(search) {
         const bannerCard = document.getElementsByClassName("banner-item-click-track")
 
         Array.from(bannerCard).forEach(item => item.addEventListener('click', e => handleBannerItemClick(e)))
-        console.log(Array.from(bannerCard))
 
         return data;
 
@@ -129,21 +129,22 @@ async function fetchOriginalsData(search) {
                     obj[2] === undefined
                 ) return 
 
+                /** WIP */
                 listItem += `
                         <div class="originals ${index} ${CAROUSEL_ITEM_DIV_NAME} ${index === 0 ? 'active' : ''}">
                             <div>${
                             obj[0] ? `<div class="og-card-wrapper">
-                                <img src=${obj[0].Poster} class="d-block" alt="...">
+                                <img src=${obj[0].Poster} class="d-block" alt="..."  data-id=${obj[0].imdbID} onclick="handleBannerItemClick(event)">
                                 <div class="title">${obj[0].Title}</div>
                             </div>` : ``
                             }${
                                 obj[1] ? `<div class="og-card-wrapper">
-                                    <img src=${obj[1].Poster} class="d-block" alt="...">
+                                    <img src=${obj[1].Poster} class="d-block" alt="..."  data-id=${obj[1].imdbID} onclick="handleBannerItemClick(event)">
                                     <div class="title">${obj[1].Title}</div>
                                 </div>` : ``
                             }${
                                 obj[2] ? `<div class="og-card-wrapper">
-                                    <img src=${obj[2].Poster} class="d-block" alt="...">
+                                    <img src=${obj[2].Poster} class="d-block" alt="..."  data-id=${obj[2].imdbID} onclick="handleBannerItemClick(event)">
                                     <div class="title">${obj[2].Title}</div>
                                 </div>` : ``
                             }
@@ -201,7 +202,16 @@ function autoSlideBanner (carouselElement) {
 }
 
 function handleAddFavorite(event, item) {
-    if(favoriteMovies.every(obj => obj.Title !== item.Title)) favoriteMovies.push(event)
+    if(favoriteMovies.every(obj => obj.Title !== item.Title))
+        
+    /** currently limitign to only 10 */
+    if(favoriteMovies.length < 11) {
+        favoriteMovies.push(item)
+        console.log('hex: ',favoriteMovies )
+        localStorage.setItem(LS_FAVORITES, favoriteMovies)
+    } else {
+        alert('Favorite limit exceeded !')
+    }
 }
 
 
@@ -237,7 +247,7 @@ function createMovielist(response) {
             searchDiv.insertAdjacentHTML('afterbegin', listItem)
             searchDiv.style.display = "block"
 
-            const addToFavoritebtn = document.getElementById(`watchlist-btn-${index}`)
+            const addToFavoritebtn = document.getElementById(`watchlist-btn`)
             addToFavoritebtn.addEventListener("click", e => handleAddFavorite(e, item))
             })
         } else {
@@ -258,7 +268,6 @@ async function fetchSelectedMovieData(selectedMovieId) {
         const data = await response.json();
         localStorage.setItem('LS_SELECTED_IMDB_ITEM', data)
         selectedImdbItem = data
-        console.log('hex: ', data)
 
         window.loadItemDetails && window.loadItemDetails(data)
 
