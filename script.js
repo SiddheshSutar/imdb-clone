@@ -172,10 +172,17 @@ const resetLS = () => {
 window.handlePageLoad = () => {
     fetchBannerData()
     fetchOriginalsData()
+    showSearchOnHomepage()
+    handleBlurForAutocompleteList()
+    resetLS()
+}
+window.handleOtherPageLoad = () => {
+    showSearchOnHomepage()
     resetLS()
 }
 
 window.handleMovieDetailsPageLoad = () => {
+    handleOtherPageLoad()
     console.log()
     const selectedMovieId = location.search.split("=")[1]
     selectedMovieId && fetchSelectedMovieData(selectedMovieId)
@@ -207,8 +214,7 @@ function handleAddFavorite(event, item) {
     /** currently limitign to only 10 */
     if(favoriteMovies.length < 11) {
         favoriteMovies.push(item)
-        console.log('hex: ',favoriteMovies )
-        localStorage.setItem(LS_FAVORITES, favoriteMovies)
+        localStorage.setItem(LS_FAVORITES, JSON.stringify(favoriteMovies))
     } else {
         alert('Favorite limit exceeded !')
     }
@@ -274,6 +280,17 @@ async function fetchSelectedMovieData(selectedMovieId) {
     } catch(e) {
         console.log('Error in fetchSelectedMovieData: ', e)
     }
+}
+
+function showSearchOnHomepage() {
+    if(location.href === 'http://127.0.0.1:5500/') mainSearchBtn.style.display = "block"
+    else mainSearchBtn.style.display = "none"
+}
+
+function handleBlurForAutocompleteList () {
+    document.addEventListener('click', e => {
+        console.log('dex:', e)
+    })
 }
 
 // mainSearchBtn.addEventListener('click', e => handleMainSearch(e))
