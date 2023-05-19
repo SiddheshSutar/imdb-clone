@@ -7,6 +7,7 @@ let favoriteMovies = []
 const BANNER_CAROUSEL_DIV_NAME = "banner-carousel"
 const ORIGINALS_CAROUSEL_DIV_NAME = "originals-carousel"
 const CAROUSEL_ITEM_DIV_NAME = "carousel-item"
+const FAVORTIES_SECTION_DIV_NAME = "favorites-section"
 
 const LS_SELECTED_IMDB_ITEM = 'LS_SELECTED_IMDB_ITEM'
 const LS_FAVORITES = 'LS_FAVORITES'
@@ -15,6 +16,7 @@ var mainSearchBtn = document.getElementById('main-search')
 const searchDiv = document.getElementById("search-result-container")
 const bannerCarousel = document.getElementById(BANNER_CAROUSEL_DIV_NAME)
 const originalsCarousel = document.getElementById(ORIGINALS_CAROUSEL_DIV_NAME)
+const favortiesSection = document.getElementById(FAVORTIES_SECTION_DIV_NAME)
 /** Constants END */
 
 /** State variables START */
@@ -31,6 +33,12 @@ function debounce(cb, delay = 250) {
             cb(...args)
         }, delay)
     }
+}
+
+const parser = new DOMParser();
+
+function convertToHtml (htmlString) {
+    return parser.parseFromString(htmlString, 'text/html').body.innerHTML
 }
 
 const handleMainSearch = debounce((e) => {
@@ -213,7 +221,8 @@ function handleAddFavorite(event, item) {
         
     /** currently limitign to only 10 */
     if(favoriteMovies.length < 11) {
-        favoriteMovies.push(item)
+        favoriteMovies.push(item.imdbID)
+        console.log('hex p: ',favoriteMovies)
         localStorage.setItem(LS_FAVORITES, JSON.stringify(favoriteMovies))
     } else {
         alert('Favorite limit exceeded !')

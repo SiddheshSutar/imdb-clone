@@ -11,10 +11,6 @@ const genreContent = document.getElementById('genre')
 const earned = document.getElementById('earned')
 const metaScore = document.getElementById('meta-score')
 
-const parser = new DOMParser();
-
-const convertToHtml = (htmlString) => parser.parseFromString(htmlString, 'text/html').body.innerHTML
-
 function loader2(selectedItemData) {
     const actorsListElement = selectedItemData.Actors
         .split(',')
