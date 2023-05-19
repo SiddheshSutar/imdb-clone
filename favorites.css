@@ -1,0 +1,39 @@
+.favorite-container img {
+    width: 200px;
+}
+
+.tags-row,
+.actors-row {
+    display: flex;
+    gap: 10px;
+}
+
+.tags-row > * {
+    flex-grow: 0;
+    position: relative;
+}
+
+.actors-row > * {
+    color: var(--blue);
+}
+
+.tags-row > *:not(:last-child)::after{
+    content: '|';
+    position: absolute;
+    color: black;
+    right: -18%;
+}
+
+.imdbRating {
+    position: relative;
+    left: 1%;
+    padding-left: 3%;
+}
+
+.imdbRating::before {
+    content: '\2B50';
+    position: absolute;
+    left: -1%;
+    width: 1rem;
+    height: 1rem;
+}

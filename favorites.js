@@ -13,7 +13,6 @@ window.loadFavorites = async () => {
 
     /** If we have list of favorites */
     if (localStorage.getItem(LS_FAVORITES)) {
-        // console.log('hex: ', favortiesSection)
 
         /** 1. Iterate on list of favorites ID array */
         // const allFavorites = JSON.parse(localStorage.getItem(LS_FAVORITES))
@@ -29,24 +28,33 @@ window.loadFavorites = async () => {
 
                 const response = await fetch(url);
                 const data = await response.json();
+        console.log('hex: ', data)
 
 
                 /** 3. Create single api mapped html section  */
                 const singleSection = convertToHtml(`
                 <div class="card card-body list-card">
-                    <div class="container">
+                    <div class="container favorite-container">
                         <div class="row">
-                            <div class="col col-3 flex-grow-0">
+                            <div class="col flex-grow-0">
                                 <img src=${data.Poster} class="img'
-                                    width="auto" height="140" alt="movie">
+                                    height="140" alt="movie">
                             </div>
                             <div class="col col-7 movie-col">
                                 <div class="title">${data.Title}</div>
-                                <div class="year">${data.Year}</div>
-                                <div class="watchlist-btn">
-                                    <button class="btn btn-primary" id="watchlist-btn" data-id=${data.imdbID} type="button"
-                                    >Add to
-                                        favorite</button>
+                                <div class="tags-row">
+                                    <div>${data.Year}</div>
+                                    <div>${data.Type}</div>
+                                    <div>${data.Genre}</div>
+                                </div>
+                                <div class="imdbRating">${data.imdbRating}</div>
+                                <div class="actors-row">
+                                    ${data.Actors.split(', ')[0] ? `<div>${data.Actors.split(', ')[0]}</div>` : ''} 
+                                    ${data.Actors.split(', ')[1] ? `<div>${data.Actors.split(', ')[1]}</div>` : ''} 
+                                    ${data.Actors.split(', ')[2] ? `<div>${data.Actors.split(', ')[2]}</div>` : ''} 
+                                </div>
+                                <div class="plot">
+                                    ${data.Plot}
                                 </div>
                             </div>
                         </div>
