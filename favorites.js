@@ -16,8 +16,10 @@ window.loadFavorites = async () => {
         // console.log('hex: ', favortiesSection)
 
         /** 1. Iterate on list of favorites ID array */
-        const allFavorites = JSON.parse(localStorage.getItem(LS_FAVORITES))
-        const allSectionsStrigified = []
+        // const allFavorites = JSON.parse(localStorage.getItem(LS_FAVORITES))
+        const allFavorites = ['tt0427380', 'tt0377054']
+        let allSectionsStrigified = ''
+
 
         allFavorites.map(async (imdbIdString, index) => {
 
@@ -27,46 +29,53 @@ window.loadFavorites = async () => {
 
                 const response = await fetch(url);
                 const data = await response.json();
-    
-                console.log('hex: ', data)
+
 
                 /** 3. Create single api mapped html section  */
                 const singleSection = convertToHtml(`
-                    <div class="card card-body list-card">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col col-3 flex-grow-0">
-                                    <img src=${data.Poster} class="img'
-                                        width="auto" height="140" alt="movie">
-                                </div>
-                                <div class="col col-7 movie-col">
-                                    <div class="title">${data.Title}</div>
-                                    <div class="year">${data.Year}</div>
-                                    <div class="watchlist-btn">
-                                        <button class="btn btn-primary" id="watchlist-btn" data-id=${data.imdbID} type="button"
-                                        >Add to
-                                            favorite</button>
-                                    </div>
+                <div class="card card-body list-card">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col col-3 flex-grow-0">
+                                <img src=${data.Poster} class="img'
+                                    width="auto" height="140" alt="movie">
+                            </div>
+                            <div class="col col-7 movie-col">
+                                <div class="title">${data.Title}</div>
+                                <div class="year">${data.Year}</div>
+                                <div class="watchlist-btn">
+                                    <button class="btn btn-primary" id="watchlist-btn" data-id=${data.imdbID} type="button"
+                                    >Add to
+                                        favorite</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    ${index !== allFavorites.length - 1 ? "<div class='separator'></div>" : ""}
-                `)
+                </div>
+                ${index !== allFavorites.length - 1 ? "<div class='separator'></div>" : ""}
+            `)
 
-                /** create continuous string of such section from all objects in favorites list */
-                allSectionsStrigified.push(singleSection)
-    
-    
-            } catch(e) {
+                /** 4. create continuous string of such section from all objects in favorites list */
+                allSectionsStrigified += singleSection
+
+                /** 5. finally append to DOM */
+                if (index === allFavorites.length - 1) {
+                    favortiesSection.innerHTML = convertToHtml(allSectionsStrigified)
+                }
+
+            } catch (e) {
                 console.log('Error in loadFavorites: ', e)
             }
         })
 
 
-        
+
         /** append this list to favorites section html */
-        favortiesSection.innerHTML = convertToHtml(allSectionsStrigified)
-        
+
     }
+}
+
+function getMappedContentString(allFavorites) {
+
+    return allSectionsStrigified
 }
