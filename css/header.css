@@ -27,6 +27,39 @@
     z-index: 4;
 }
 
+
+
+.year {
+    margin-bottom: 0;
+    margin-top: auto;
+}
+
+#search-result-container::before {
+    content: '';
+    position: fixed;
+    width: 100vw;
+    height: 100%;
+    background-color: black;
+    opacity: 0.1;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+}
+
+#search-result-container .card {
+    background-color: #dfdfdf;
+}
+
+#search-result-container .card .title {
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    line-height: 1;
+    text-shadow: 0 0 1px var(--yellow);
+}
+
 .movie-col {
     display: flex;
     flex-direction: column;
@@ -55,3 +88,38 @@
     color: #cacaca;
 }
 
+#watchlist-btn {
+    background-color: var(--yellow);
+    color: black;
+    border-color: var(--yellow);
+    font-weight: bold;
+}
+
+#watchlist-btn:hover {
+    opacity: 0.7;
+}
+
+#search-result-container .card {
+    border-radius: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    cursor: pointer;
+}
+
+
+#search-result-container .card.card-body {
+    padding: 10px;
+}
+
+#search-result-container .card.card-body .container {
+    padding-inline: 0;
+}
+
+#search-result-container .card.card-body .container .row .col:nth-child(1) {
+    max-width: 20%;
+}
+
+#search-result-container .card.card-body .container .row .col:nth-child(1) img {
+    width: 100%;
+}
