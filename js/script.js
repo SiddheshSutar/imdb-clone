@@ -4,7 +4,6 @@ const parser = new DOMParser();
 const omdbKey = '2165061e'
 const omdbUrl = `http://www.omdbapi.com/?apikey=${omdbKey}`
 
-let favoriteMovies = []
 
 const BANNER_CAROUSEL_DIV_NAME = "banner-carousel"
 const ORIGINALS_CAROUSEL_DIV_NAME = "originals-carousel"
@@ -16,6 +15,8 @@ const ADD_TO_FAVORITES = "Add to favorites"
 
 const LS_SELECTED_IMDB_ITEM = 'LS_SELECTED_IMDB_ITEM'
 const LS_FAVORITES = 'LS_FAVORITES'
+
+let favoriteMovies = localStorage.getItem(LS_FAVORITES) ? localStorage.getItem(LS_FAVORITES) : []
 
 var mainSearchBtn = document.getElementById('main-search')
 const searchDiv = document.getElementById("search-result-container")
@@ -70,6 +71,16 @@ window.renderLoader  = (shouldRender = false) => {
 
 }
 
+window.renderEmptyFavorites  = (shouldRender = false) => {
+    if (favortiesSection) {
+        favortiesSection.innerHTML = convertToHtml(`
+            <div class="empty-favorites">
+                Oops ! There is no data to display..
+            </div>
+        `)
+    }
+}
+
 /** homepage search handler */
 const handleMainSearch = debounce((e) => {
 
@@ -85,8 +96,14 @@ const handleMainSearch = debounce((e) => {
 
 /** banne section item click handler */
 window.handleBannerItemClick = (e, imdbIdPassed = null) => {
-    const idToSearch = imdbIdPassed ? imdbIdPassed : e.target.getAttribute('data-id')
-    window.open(`/home/moviedetails.html?q=${idToSearch}`, '_self')
+
+    /** ignore event if remove btn is clicked */
+    if(e.target?.id && e.target?.id.includes('remove-btn')) 
+        handleRemoveFavorite(imdbIdPassed)
+    else {
+        const idToSearch = imdbIdPassed ? imdbIdPassed : e.target.getAttribute('data-id')
+        window.open(`/home/moviedetails.html?q=${idToSearch}`, '_self')
+    }
 }
 
 /** @API : fetch all movies */
@@ -232,6 +249,7 @@ window.handlePageLoad = () => {
 /**  handle page loads ; "OTHER THAN" homepage */
 window.handleOtherPageLoad = () => {
     showSearchOnHomepage()
+    if(location.href.includes('favorite') && favoriteMovies.length === 0) renderEmptyFavorites()
     resetLS()
 }
 
@@ -275,6 +293,8 @@ function autoSlideBanner(carouselElement) {
 /** handler for adding item to favorite OR removing from favorite from search results */
 function handleFavoriteItemAddRemove(event, item) {
 
+    favoriteMovies = localStorage.getItem(LS_FAVORITES) ? JSON.parse(localStorage.getItem(LS_FAVORITES)) : []
+
     if (event.target.innerHTML === REMOVE_FROM_FAVORITES) {
         const newList = favoriteMovies.filter(item_ => item_ !== item.imdbID)
         favoriteMovies = [...newList]
@@ -305,6 +325,22 @@ function handleFavoriteItemAddRemove(event, item) {
     }
 
 
+}
+
+/** remove from wishlist function for favorite page */
+window.handleRemoveFavorite = (imdbIDPassed) => {
+    favoriteMovies = localStorage.getItem(LS_FAVORITES) ? JSON.parse(localStorage.getItem(LS_FAVORITES)) : []
+
+    const newList = favoriteMovies.filter(item_ => item_ !== imdbIDPassed)
+    
+    if(newList.length === 0)  {
+        renderEmptyFavorites()
+        localStorage.removeItem(LS_FAVORITES)
+    } else {
+        favoriteMovies = [...newList]
+        localStorage.setItem(LS_FAVORITES, JSON.stringify(newList))
+    }
+    window.open('/home/favorites.html', '_self')
 }
 
 /** @helper : function to create list of search result's movies in html format */

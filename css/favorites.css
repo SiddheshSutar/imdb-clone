@@ -37,3 +37,22 @@
     width: 1rem;
     height: 1rem;
 }
+
+.favorite-container .title {
+    font-size: 2rem;
+}
+
+.remove-btn-col button.btn-link {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    padding: 0;
+}
+
+.remove-btn-col button span:nth-child(1) {
+    font-weight: bold;
+}
+
+.empty-favorites {
+    color: var(--white);
+}

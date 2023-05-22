@@ -28,7 +28,7 @@ window.loadFavorites = async () => {
                 >
                     <div class="container favorite-container">
                         <div class="row">
-                            <div class="col flex-grow-0">
+                            <div class="col col-3 flex-grow-0">
                                 <img src=${data.Poster} class="img'
                                     height="140" alt="movie">
                             </div>
@@ -48,6 +48,13 @@ window.loadFavorites = async () => {
                                 <div class="plot">
                                     ${data.Plot}
                                 </div>
+                            </div>
+                            <div class="col col-2 remove-btn-col">
+                                <button id="remove-btn-${data.imdbID}" type="button" class="btn btn-link"
+                                >
+                                    <span id="remove-btn-${data.imdbID}-spanIcon">X</span>
+                                    <span id="remove-btn-${data.imdbID}-spanText">Remove from favorite</span>
+                                </button>
                             </div>
                         </div>
                     </div>
