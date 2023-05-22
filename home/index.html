@@ -25,7 +25,7 @@
 <body onload="window.handlePageLoad()">
     <nav class="nav-css navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="/html">
+            <a class="navbar-brand" href="/home">
                 <svg id="home_img" class="ipc-logo" xmlns="http://www.w3.org/2000/svg" width="64" height="32"
                     viewBox="0 0 64 32" version="1.1">
                     <g fill="#F5C518">
@@ -64,7 +64,7 @@
                 </ul>
                 <ul class="ul-second navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/home">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/home/favorites.html">Favorites</a>
@@ -73,16 +73,9 @@
             </div>
         </div>
     </nav>
-    <!-- <div class="page container">
-        <div class="banner">
-            <div class="row">
-                <div class="col col-6 banner-left-sec"></div>
-                <div class="col col-5 banner-right-sec"></div>
-            </div>
-        </div>
-    </div> -->
+    <div id="loader"></div>
     <div class="page container page-container">
-        <div class="one-section">
+        <section>
             <div class="section-title">Featured Today</div>
             <div id="carouselExampleControls" class="banner-carousel carousel slide" data-bs-interval="false">
                 <div class="carousel-inner" id="banner-carousel">
@@ -98,8 +91,8 @@
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
-        </div>
-        <div class="one-section">
+        </section>
+        <section>
             <div class="section-title">IMDB Originals</div>
             <div id="originalsCarouselControls" class="originals-carousel carousel slide" data-bs-interval="false">
                 <div class="carousel-inner" id="originals-carousel">
@@ -115,7 +108,7 @@
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
-        </div>
+        </section>
     </div>
 </body>
 

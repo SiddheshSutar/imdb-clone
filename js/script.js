@@ -50,6 +50,26 @@ function convertToHtml(htmlString) {
     return parser.parseFromString(htmlString, 'text/html').body.innerHTML
 }
 
+/** Generic page loader, shown on all page */
+const loaderRenderDiv = document.querySelector('#loader')
+
+window.renderLoader  = (shouldRender = false) => {
+    if (loaderRenderDiv) {
+        if (shouldRender) {
+            loaderRenderDiv.style.display = 'flex'
+            loaderRenderDiv.innerHTML = convertToHtml(`
+            <div class="loader spinner-border text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        `)
+        } else {
+            loaderRenderDiv.style.display = 'none'
+            loaderRenderDiv.innerHTML = ''
+        }
+    }
+
+}
+
 /** homepage search handler */
 const handleMainSearch = debounce((e) => {
 
@@ -74,12 +94,15 @@ async function fetchMovies(search) {
 
     const url = `${omdbUrl}&s=${search}`;
     try {
-
+        renderLoader(true)
         const response = await fetch(url);
         const data = await response.json();
+        renderLoader(false)
         createMovielist(data)
         return data;
     } catch (err) {
+        renderLoader(false)
+        alert('Some error occured')
         console.log(err);
     }
 }
@@ -89,10 +112,11 @@ async function fetchBannerData(search) {
 
     const url = `${omdbUrl}&s=new&plot=short`;
     try {
-
+        renderLoader(true)
         const response = await fetch(url);
         const data = await response.json();
 
+        renderLoader(false)
 
         if (data && data.Search.length > 0) {
             data.Search.slice(0, 5).map((obj, index) => {
@@ -115,6 +139,8 @@ async function fetchBannerData(search) {
         return data;
 
     } catch (err) {
+        renderLoader(false)
+        alert('Some error occured')
         console.log(err);
     }
 }
@@ -134,11 +160,12 @@ async function fetchOriginalsData(search) {
 
     const url = `${omdbUrl}&s=imdb`;
     try {
+        renderLoader(true)
 
         const response = await fetch(url);
         const data = await response.json();
 
-
+        renderLoader(false)
         if (data && data.Search.length > 0) {
             let slideIndex = 0
             let show = false
@@ -182,6 +209,8 @@ async function fetchOriginalsData(search) {
         return data;
 
     } catch (err) {
+        renderLoader(false)
+        alert('Some error occured')
         console.log(err);
     }
 }
@@ -328,15 +357,19 @@ async function fetchSelectedMovieData(selectedMovieId) {
     const url = `${omdbUrl}&i=${selectedMovieId}&plot=full`;
 
     try {
-
+        renderLoader(true)
         const response = await fetch(url);
         const data = await response.json();
+
+        renderLoader(false)
         localStorage.setItem('LS_SELECTED_IMDB_ITEM', data)
         selectedImdbItem = data
 
         window.loadItemDetails && window.loadItemDetails(data)
 
     } catch (e) {
+        renderLoader(false)
+        alert('Some error occured')
         console.log('Error in fetchSelectedMovieData: ', e)
     }
 }

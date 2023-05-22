@@ -10,14 +10,14 @@
     font-style: normal;
     font-weight: 300;
     font-display: swap;
-    src: url('./fonts/Roboto-Regular.ttf') format('woff2');
+    src: url('../fonts/Roboto-Regular.ttf') format('woff2');
 }
 @font-face {
     font-family: 'Ubuntu-Regular';
     font-style: normal;
     font-weight: 300;
     font-display: swap;
-    src: url('./fonts/Ubuntu-Regular.ttf') format('woff2');
+    src: url('../fonts/Ubuntu-Regular.ttf') format('woff2');
 }
 
 :root {

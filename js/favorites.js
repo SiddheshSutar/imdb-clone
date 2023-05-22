@@ -15,9 +15,11 @@ window.loadFavorites = async () => {
             /** 2. Fetch the data of current Id */
             try {
                 const url = `${omdbUrl}&i=${imdbIdString}&plot=full`;
-
+                renderLoader(true)
                 const response = await fetch(url);
                 const data = await response.json();
+
+                renderLoader(false)
 
                 /** 3. Create single api mapped html section  */
                 const singleSection = convertToHtml(`
@@ -62,6 +64,8 @@ window.loadFavorites = async () => {
                 }
 
             } catch (e) {
+                renderLoader(false)
+                alert('Some error occured')
                 console.log('Error in loadFavorites: ', e)
             }
         })

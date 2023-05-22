@@ -26,7 +26,7 @@
 <body onload="window.handleMovieDetailsPageLoad()">
     <nav class="nav-css navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="/html">
+            <a class="navbar-brand" href="/home">
                 <svg id="home_img" class="ipc-logo" xmlns="http://www.w3.org/2000/svg" width="64" height="32"
                     viewBox="0 0 64 32" version="1.1">
                     <g fill="#F5C518">
@@ -65,13 +65,14 @@
                 </ul>
                 <ul class="ul-second navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/html">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/home">Home</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="page container page-container md-page">
+    <div id="loader"></div>
+    <section class="page container page-container md-page">
         <div class="dt-title-row row">
             <div class="col dt-title-col" id="movie-title"></div>
             <div class="col col-2 dt-title-col imdb-title-col">
@@ -135,7 +136,7 @@
             <!-- <span>Earned <span id="earned"></span> with Meta score of <span id="meta-score"></span>% </span> -->
             <span>Earnings: <span id="earned"></span> | Meta Score: <span id="meta-score"></span> </span>
         </div>
-    </div>
+    </section>
 </body>
 
 </html>
