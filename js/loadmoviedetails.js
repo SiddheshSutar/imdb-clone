@@ -11,6 +11,18 @@ const genreContent = document.getElementById('genre')
 const earned = document.getElementById('earned')
 const metaScore = document.getElementById('meta-score')
 
+
+/** Details page load
+ * Split into two functions further just for understanding purpose
+ * general logic: map the API data into corresponding sections of html .
+ */
+window.loadItemDetails = (data) => {
+    const selectedItemData = JSON.parse(JSON.stringify(data))
+
+    loader1(selectedItemData)
+    loader2(selectedItemData)
+}
+
 function loader2(selectedItemData) {
     const actorsListElement = selectedItemData.Actors
         .split(',')
@@ -70,13 +82,6 @@ function loader1(selectedItemData) {
     `
     creatorListContent.innerHTML = convertToHtml(creatorsListElement)
 
-}
-
-window.loadItemDetails = (data) => {
-    const selectedItemData = JSON.parse(JSON.stringify(data))
-
-    loader1(selectedItemData)
-    loader2(selectedItemData)
 }
 
 

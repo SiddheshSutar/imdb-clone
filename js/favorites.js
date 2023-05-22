@@ -1,13 +1,3 @@
-
-function renderOneFavorite(obj) {
-
-    return `
-        <div>
-
-        </div>
-    `;
-}
-
 window.loadFavorites = async () => {
     window.handleOtherPageLoad()
 
@@ -28,8 +18,6 @@ window.loadFavorites = async () => {
 
                 const response = await fetch(url);
                 const data = await response.json();
-        console.log('hex: ', data)
-
 
                 /** 3. Create single api mapped html section  */
                 const singleSection = convertToHtml(`

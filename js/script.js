@@ -1,3 +1,5 @@
+const parser = new DOMParser();
+
 /** Constants START */
 const omdbKey = '2165061e'
 const omdbUrl = `http://www.omdbapi.com/?apikey=${omdbKey}`
@@ -8,6 +10,7 @@ const BANNER_CAROUSEL_DIV_NAME = "banner-carousel"
 const ORIGINALS_CAROUSEL_DIV_NAME = "originals-carousel"
 const CAROUSEL_ITEM_DIV_NAME = "carousel-item"
 const FAVORTIES_SECTION_DIV_NAME = "favorites-section"
+const ATTR_SEARCH_LIST_IS_OPEN = 'data-is-open'
 
 const LS_SELECTED_IMDB_ITEM = 'LS_SELECTED_IMDB_ITEM'
 const LS_FAVORITES = 'LS_FAVORITES'
@@ -23,7 +26,10 @@ const favortiesSection = document.getElementById(FAVORTIES_SECTION_DIV_NAME)
 let selectedImdbItem = null
 /** State variables END */
 
-/** function to simulate autocomplete */
+/** function to simulate autocomplete
+ * @param cb: callback to be executed after manual delay
+ * @param delay: the delay time in milli seconds
+ */
 function debounce(cb, delay = 250) {
     let timeout
 
@@ -35,28 +41,33 @@ function debounce(cb, delay = 250) {
     }
 }
 
-const parser = new DOMParser();
-
+/** function to parse stringified html
+ * @param htmlString: string version written that of html 
+ */
 function convertToHtml (htmlString) {
     return parser.parseFromString(htmlString, 'text/html').body.innerHTML
 }
 
+/** homepage search handler */
 const handleMainSearch = debounce((e) => {
 
     // no value OR validation for min length to ht search
     if(!e.target.value || e.target.value && e.target.value.length < 3) {
         searchDiv.style.display = "none"
+        searchDiv.setAttribute(ATTR_SEARCH_LIST_IS_OPEN, 'false')
         return
     }
 
     fetchMovies(e.target.value)
 }, 1000)
 
+/** banne section item click handler */
 window.handleBannerItemClick = (e, imdbIdPassed = null) => {
     const idToSearch = imdbIdPassed ? imdbIdPassed : e.target.getAttribute('data-id')
     window.open(`/html/moviedetails.html?q=${idToSearch}`, '_self')
 }
 
+/** @API : fetch all movies */
 async function fetchMovies(search) {
 
     const url = `${omdbUrl}&s=${search}`;
@@ -71,6 +82,7 @@ async function fetchMovies(search) {
     }
 }
 
+/** @API : fetch banner section data */
 async function fetchBannerData(search) {
 
     const url = `${omdbUrl}&s=new&plot=short`;
@@ -105,6 +117,7 @@ async function fetchBannerData(search) {
     }
 }
 
+/** @helper : convert bigger array into smaller array with @n item in each array item */
 Array.prototype.chunk = function ( n ) {
     if ( !this.length ) {
         return [];
@@ -112,6 +125,7 @@ Array.prototype.chunk = function ( n ) {
     return [ this.slice( 0, n ) ].concat( this.slice(n).chunk(n) );
 };
 
+/** @API : fectch IMDB Originals section data  */
 async function fetchOriginalsData(search) {
 
     const parser = new DOMParser();
@@ -165,7 +179,7 @@ async function fetchOriginalsData(search) {
             originalsCarousel.innerHTML = parser.parseFromString(listItem, 'text/html').body.innerHTML
         }
 
-        // autoSlideBanner(originalsCarousel)
+        // autoSlideBanner(originalsCarousel) /** Not working */
         return data;
 
     } catch (err) {
@@ -173,11 +187,12 @@ async function fetchOriginalsData(search) {
     }
 }
 
+/** @helper : reset localstorage */
 const resetLS = () => {
     localStorage.removeItem('LS_SELECTED_IMDB_ITEM')
 }
 
-
+/** handle homepage load */
 window.handlePageLoad = () => {
     fetchBannerData()
     fetchOriginalsData()
@@ -185,11 +200,21 @@ window.handlePageLoad = () => {
     handleBlurForAutocompleteList()
     resetLS()
 }
+
+/**  handle page loads ; "OTHER THAN" homepage */
 window.handleOtherPageLoad = () => {
     showSearchOnHomepage()
     resetLS()
 }
 
+/** @helper : function which show-hides search section from navbar*/
+function showSearchOnHomepage() {
+    if(location.href === 'http://127.0.0.1:5500/html/')
+        mainSearchBtn.style.display = "block"
+    else mainSearchBtn.style.display = "none"
+}
+
+/**  handle movie details page load */
 window.handleMovieDetailsPageLoad = () => {
     handleOtherPageLoad()
     console.log()
@@ -198,6 +223,8 @@ window.handleMovieDetailsPageLoad = () => {
 }
 
 function autoSlideBanner (carouselElement) {
+
+    /** Needs more work to b functional */
     const slides = carouselElement.getElementsByClassName(CAROUSEL_ITEM_DIV_NAME)
 
     if(!slides) return
@@ -217,20 +244,20 @@ function autoSlideBanner (carouselElement) {
 
 }
 
+/** handler for adding item to favorite from search results */
 function handleAddFavorite(event, item) {
     if(favoriteMovies.every(obj => obj.Title !== item.Title))
         
-    /** currently limitign to only 10 */
+    /** currently limiting to only 10 */
     if(favoriteMovies.length < 11) {
         favoriteMovies.push(item.imdbID)
-        console.log('hex p: ',favoriteMovies)
         localStorage.setItem(LS_FAVORITES, JSON.stringify(favoriteMovies))
     } else {
         alert('Favorite limit exceeded !')
     }
 }
 
-
+/** @helper : function to create list of search result's movies in html format */
 function createMovielist(response) {
 
     if (searchDiv) {
@@ -262,6 +289,7 @@ function createMovielist(response) {
 
             searchDiv.insertAdjacentHTML('afterbegin', listItem)
             searchDiv.style.display = "block"
+            searchDiv.setAttribute(ATTR_SEARCH_LIST_IS_OPEN, 'true')
 
             const addToFavoritebtn = document.getElementById(`watchlist-btn`)
             addToFavoritebtn.addEventListener("click", e => handleAddFavorite(e, item))
@@ -269,12 +297,13 @@ function createMovielist(response) {
         } else {
             searchDiv.innerHTML = response.Error
             searchDiv.style.display = "block"
-
+            searchDiv.setAttribute(ATTR_SEARCH_LIST_IS_OPEN, 'true')
         }
     }
 }
 mainSearchBtn.addEventListener('input', e => handleMainSearch(e))
 
+/** @API : function to fetch the data of either banner or favorite section on clicked movie */
 async function fetchSelectedMovieData(selectedMovieId) {
     const url = `${omdbUrl}&i=${selectedMovieId}&plot=full`;
     
@@ -292,16 +321,13 @@ async function fetchSelectedMovieData(selectedMovieId) {
     }
 }
 
-function showSearchOnHomepage() {
-    if(location.href === 'http://127.0.0.1:5500/html/')
-        mainSearchBtn.style.display = "block"
-    else mainSearchBtn.style.display = "none"
-}
 
-function handleBlurForAutocompleteList () {
-    document.addEventListener('click', e => {
-        console.log('dex:', e)
-    })
-}
+/** To close the opened dropdown of search items */
+document.body.addEventListener('click', e => handleBlurForAutocompleteList(e))
 
-// mainSearchBtn.addEventListener('click', e => handleMainSearch(e))
+function handleBlurForAutocompleteList (e) {
+    if(searchDiv.getAttribute(ATTR_SEARCH_LIST_IS_OPEN) === 'true') {
+        searchDiv.style.display = "none"
+        searchDiv.setAttribute(ATTR_SEARCH_LIST_IS_OPEN, 'false')
+    }
+}
