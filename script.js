@@ -52,8 +52,9 @@ const handleMainSearch = debounce((e) => {
     fetchMovies(e.target.value)
 }, 1000)
 
-const handleBannerItemClick = (e) => {
-    window.open(`/moviedetails.html?q=${e.target.getAttribute('data-id')}`, '_self')
+window.handleBannerItemClick = (e, imdbIdPassed = null) => {
+    const idToSearch = imdbIdPassed ? imdbIdPassed : e.target.getAttribute('data-id')
+    window.open(`/moviedetails.html?q=${idToSearch}`, '_self')
 }
 
 async function fetchMovies(search) {

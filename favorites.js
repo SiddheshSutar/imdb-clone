@@ -15,9 +15,9 @@ window.loadFavorites = async () => {
     if (localStorage.getItem(LS_FAVORITES)) {
 
         /** 1. Iterate on list of favorites ID array */
-        // const allFavorites = JSON.parse(localStorage.getItem(LS_FAVORITES))
-        const allFavorites = ['tt0427380', 'tt0377054']
-        let allSectionsStrigified = ''
+        const allFavorites = JSON.parse(localStorage.getItem(LS_FAVORITES))
+        // const allFavorites = ['tt0427380', 'tt0377054']
+        let allSectionsHtmlfied = ''
 
 
         allFavorites.map(async (imdbIdString, index) => {
@@ -33,7 +33,9 @@ window.loadFavorites = async () => {
 
                 /** 3. Create single api mapped html section  */
                 const singleSection = convertToHtml(`
-                <div class="card card-body list-card">
+                <div class="card card-body list-card" data-id=${data.imdbID}
+                    onclick="window.handleBannerItemClick(event, '${data.imdbID}')"
+                >
                     <div class="container favorite-container">
                         <div class="row">
                             <div class="col flex-grow-0">
@@ -64,11 +66,11 @@ window.loadFavorites = async () => {
             `)
 
                 /** 4. create continuous string of such section from all objects in favorites list */
-                allSectionsStrigified += singleSection
+                allSectionsHtmlfied += singleSection
 
                 /** 5. finally append to DOM */
                 if (index === allFavorites.length - 1) {
-                    favortiesSection.innerHTML = convertToHtml(allSectionsStrigified)
+                    favortiesSection.innerHTML = convertToHtml(allSectionsHtmlfied)
                 }
 
             } catch (e) {
@@ -85,5 +87,5 @@ window.loadFavorites = async () => {
 
 function getMappedContentString(allFavorites) {
 
-    return allSectionsStrigified
+    return allSectionsHtmlfied
 }

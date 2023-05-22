@@ -60,7 +60,7 @@ function loader1(selectedItemData) {
 
     movieTitle.innerHTML = selectedItemData.Title
     imdbRating.innerHTML = convertToHtml(`<div class="col" id="imdb-rating-nums"><div>${selectedItemData.imdbRating}</div>/<div>10</div></div>`)
-    rtRating.innerHTML = selectedItemData.Ratings[1].Value
+    if(selectedItemData.Ratings[1]) rtRating.innerHTML = selectedItemData.Ratings[1]?.Value
 
     imagePoster.src = selectedItemData.Poster
     moviePlot.innerHTML = selectedItemData.Plot
