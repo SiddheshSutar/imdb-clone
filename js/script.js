@@ -66,7 +66,7 @@ const handleMainSearch = debounce((e) => {
 /** banne section item click handler */
 window.handleBannerItemClick = (e, imdbIdPassed = null) => {
     const idToSearch = imdbIdPassed ? imdbIdPassed : e.target.getAttribute('data-id')
-    window.open(`/html/moviedetails.html?q=${idToSearch}`, '_self')
+    window.open(`/home/moviedetails.html?q=${idToSearch}`, '_self')
 }
 
 /** @API : fetch all movies */
@@ -208,7 +208,7 @@ window.handleOtherPageLoad = () => {
 
 /** @helper : function which show-hides search section from navbar*/
 function showSearchOnHomepage() {
-    if (location.href === 'http://127.0.0.1:5500/html/')
+    if (location.href === 'http://127.0.0.1:5500/home/')
         mainSearchBtn.style.display = "block"
     else mainSearchBtn.style.display = "none"
 }
