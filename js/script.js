@@ -243,8 +243,8 @@ function autoSlideBanner(carouselElement) {
 
 }
 
-/** handler for adding item to favorite from search results */
-function handleAddFavorite(event, item) {
+/** handler for adding item to favorite OR removing from favorite from search results */
+function handleFavoriteItemAddRemove(event, item) {
 
     if (event.target.innerHTML === REMOVE_FROM_FAVORITES) {
         const newList = favoriteMovies.filter(item_ => item_ !== item.imdbID)
@@ -312,7 +312,7 @@ function createMovielist(response) {
                 searchDiv.setAttribute(ATTR_SEARCH_LIST_IS_OPEN, 'true')
 
                 const addToFavoritebtn = document.getElementById(`watchlist-btn-${item.imdbID}`)
-                addToFavoritebtn.addEventListener("click", e => handleAddFavorite(e, item))
+                addToFavoritebtn.addEventListener("click", e => handleFavoriteItemAddRemove(e, item))
             })
         } else {
             searchDiv.innerHTML = response.Error
