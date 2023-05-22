@@ -11,6 +11,8 @@ const ORIGINALS_CAROUSEL_DIV_NAME = "originals-carousel"
 const CAROUSEL_ITEM_DIV_NAME = "carousel-item"
 const FAVORTIES_SECTION_DIV_NAME = "favorites-section"
 const ATTR_SEARCH_LIST_IS_OPEN = 'data-is-open'
+const REMOVE_FROM_FAVORITES = "Remove from favorites"
+const ADD_TO_FAVORITES = "Add to favorites"
 
 const LS_SELECTED_IMDB_ITEM = 'LS_SELECTED_IMDB_ITEM'
 const LS_FAVORITES = 'LS_FAVORITES'
@@ -44,7 +46,7 @@ function debounce(cb, delay = 250) {
 /** function to parse stringified html
  * @param htmlString: string version written that of html 
  */
-function convertToHtml (htmlString) {
+function convertToHtml(htmlString) {
     return parser.parseFromString(htmlString, 'text/html').body.innerHTML
 }
 
@@ -52,7 +54,7 @@ function convertToHtml (htmlString) {
 const handleMainSearch = debounce((e) => {
 
     // no value OR validation for min length to ht search
-    if(!e.target.value || e.target.value && e.target.value.length < 3) {
+    if (!e.target.value || e.target.value && e.target.value.length < 3) {
         searchDiv.style.display = "none"
         searchDiv.setAttribute(ATTR_SEARCH_LIST_IS_OPEN, 'false')
         return
@@ -90,9 +92,9 @@ async function fetchBannerData(search) {
 
         const response = await fetch(url);
         const data = await response.json();
-        
 
-        if(data && data.Search.length > 0) {
+
+        if (data && data.Search.length > 0) {
             data.Search.slice(0, 5).map((obj, index) => {
                 const listItem = `
                 <div class="${CAROUSEL_ITEM_DIV_NAME} ${index === 0 ? 'active' : ''}">
@@ -101,7 +103,7 @@ async function fetchBannerData(search) {
                 </div>
             `
 
-            bannerCarousel.insertAdjacentHTML('afterbegin', listItem)
+                bannerCarousel.insertAdjacentHTML('afterbegin', listItem)
             })
         }
 
@@ -118,11 +120,11 @@ async function fetchBannerData(search) {
 }
 
 /** @helper : convert bigger array into smaller array with @n item in each array item */
-Array.prototype.chunk = function ( n ) {
-    if ( !this.length ) {
+Array.prototype.chunk = function (n) {
+    if (!this.length) {
         return [];
     }
-    return [ this.slice( 0, n ) ].concat( this.slice(n).chunk(n) );
+    return [this.slice(0, n)].concat(this.slice(n).chunk(n));
 };
 
 /** @API : fectch IMDB Originals section data  */
@@ -135,47 +137,44 @@ async function fetchOriginalsData(search) {
 
         const response = await fetch(url);
         const data = await response.json();
-        
 
-        if(data && data.Search.length > 0) {
+
+        if (data && data.Search.length > 0) {
             let slideIndex = 0
             let show = false
 
             let listItem = ''
 
             data.Search.chunk(3)
-            .forEach((obj, index) => {
+                .forEach((obj, index) => {
 
-                if(
-                    obj[0] === undefined || 
-                    obj[1] === undefined || 
-                    obj[2] === undefined
-                ) return 
+                    if (
+                        obj[0] === undefined ||
+                        obj[1] === undefined ||
+                        obj[2] === undefined
+                    ) return
 
-                /** WIP */
-                listItem += `
+                    /** WIP */
+                    listItem += `
                         <div class="originals ${index} ${CAROUSEL_ITEM_DIV_NAME} ${index === 0 ? 'active' : ''}">
-                            <div>${
-                            obj[0] ? `<div class="og-card-wrapper">
+                            <div>${obj[0] ? `<div class="og-card-wrapper">
                                 <img src=${obj[0].Poster} class="d-block" alt="..."  data-id=${obj[0].imdbID} onclick="handleBannerItemClick(event)">
                                 <div class="title">${obj[0].Title}</div>
                             </div>` : ``
-                            }${
-                                obj[1] ? `<div class="og-card-wrapper">
+                        }${obj[1] ? `<div class="og-card-wrapper">
                                     <img src=${obj[1].Poster} class="d-block" alt="..."  data-id=${obj[1].imdbID} onclick="handleBannerItemClick(event)">
                                     <div class="title">${obj[1].Title}</div>
                                 </div>` : ``
-                            }${
-                                obj[2] ? `<div class="og-card-wrapper">
+                        }${obj[2] ? `<div class="og-card-wrapper">
                                     <img src=${obj[2].Poster} class="d-block" alt="..."  data-id=${obj[2].imdbID} onclick="handleBannerItemClick(event)">
                                     <div class="title">${obj[2].Title}</div>
                                 </div>` : ``
-                            }
+                        }
                             </div>
                         </div>
                     `
 
-            })
+                })
             originalsCarousel.innerHTML = parser.parseFromString(listItem, 'text/html').body.innerHTML
         }
 
@@ -209,7 +208,7 @@ window.handleOtherPageLoad = () => {
 
 /** @helper : function which show-hides search section from navbar*/
 function showSearchOnHomepage() {
-    if(location.href === 'http://127.0.0.1:5500/html/')
+    if (location.href === 'http://127.0.0.1:5500/html/')
         mainSearchBtn.style.display = "block"
     else mainSearchBtn.style.display = "none"
 }
@@ -222,20 +221,20 @@ window.handleMovieDetailsPageLoad = () => {
     selectedMovieId && fetchSelectedMovieData(selectedMovieId)
 }
 
-function autoSlideBanner (carouselElement) {
+function autoSlideBanner(carouselElement) {
 
     /** Needs more work to b functional */
     const slides = carouselElement.getElementsByClassName(CAROUSEL_ITEM_DIV_NAME)
 
-    if(!slides) return
+    if (!slides) return
 
     let count = slides.length
     const autoSlideInterval = setInterval(() => {
-        if(count >= 2* slides.length) clearInterval(autoSlideInterval)
+        if (count >= 2 * slides.length) clearInterval(autoSlideInterval)
         Array.from(slides).forEach((slide, index) => {
             const isActive = Array.from(slide.classList).includes("active")
             // if(isActive) Array.from(slide.classList).filter(clsName => clsName !== )
-            if(isActive) {
+            if (isActive) {
                 slide.classList.remove("active")
                 slide.nextSibling.classList.add("active")
             }
@@ -246,15 +245,37 @@ function autoSlideBanner (carouselElement) {
 
 /** handler for adding item to favorite from search results */
 function handleAddFavorite(event, item) {
-    if(favoriteMovies.every(obj => obj.Title !== item.Title))
-        
-    /** currently limiting to only 10 */
-    if(favoriteMovies.length < 11) {
-        favoriteMovies.push(item.imdbID)
-        localStorage.setItem(LS_FAVORITES, JSON.stringify(favoriteMovies))
+
+    if (event.target.innerHTML === REMOVE_FROM_FAVORITES) {
+        const newList = favoriteMovies.filter(item_ => item_ !== item.imdbID)
+        favoriteMovies = [...newList]
+        localStorage.setItem(LS_FAVORITES, JSON.stringify(newList))
+
+        const currentAddToFavBtn = document.getElementById(`watchlist-btn-${item.imdbID}`)
+
+        if (currentAddToFavBtn) {
+            currentAddToFavBtn.innerHTML = ADD_TO_FAVORITES
+        }
     } else {
-        alert('Favorite limit exceeded !')
+        if (favoriteMovies.every(obj => obj.Title !== item.Title))
+
+            /** currently limiting to only 10 */
+            if (favoriteMovies.length < 11) {
+                favoriteMovies.push(item.imdbID)
+                localStorage.setItem(LS_FAVORITES, JSON.stringify(favoriteMovies))
+
+                /** change the functionality to 'Remove from favorites' */
+                const currentAddToFavBtn = document.getElementById(`watchlist-btn-${item.imdbID}`)
+
+                if (currentAddToFavBtn) {
+                    currentAddToFavBtn.innerHTML = REMOVE_FROM_FAVORITES
+                }
+            } else {
+                alert('Favorite limit exceeded !')
+            }
     }
+
+
 }
 
 /** @helper : function to create list of search result's movies in html format */
@@ -276,9 +297,8 @@ function createMovielist(response) {
                                 <div class="title">${item.Title}</div>
                                 <div class="year">${item.Year}</div>
                                 <div class="watchlist-btn">
-                                    <button class="btn btn-primary" id="watchlist-btn" data-id=${item.imdbID} type="button"
-                                    >Add to
-                                        favorite</button>
+                                    <button class="btn btn-primary" id="watchlist-btn-${item.imdbID}" data-id=${item.imdbID} type="button"
+                                    >${ADD_TO_FAVORITES}</button>
                                 </div>
                             </div>
                         </div>
@@ -287,12 +307,12 @@ function createMovielist(response) {
                     ${index !== response.Search.length - 1 ? "<div class='separator'></div>" : ""}
             `
 
-            searchDiv.insertAdjacentHTML('afterbegin', listItem)
-            searchDiv.style.display = "block"
-            searchDiv.setAttribute(ATTR_SEARCH_LIST_IS_OPEN, 'true')
+                searchDiv.insertAdjacentHTML('afterbegin', listItem)
+                searchDiv.style.display = "block"
+                searchDiv.setAttribute(ATTR_SEARCH_LIST_IS_OPEN, 'true')
 
-            const addToFavoritebtn = document.getElementById(`watchlist-btn`)
-            addToFavoritebtn.addEventListener("click", e => handleAddFavorite(e, item))
+                const addToFavoritebtn = document.getElementById(`watchlist-btn-${item.imdbID}`)
+                addToFavoritebtn.addEventListener("click", e => handleAddFavorite(e, item))
             })
         } else {
             searchDiv.innerHTML = response.Error
@@ -306,7 +326,7 @@ mainSearchBtn.addEventListener('input', e => handleMainSearch(e))
 /** @API : function to fetch the data of either banner or favorite section on clicked movie */
 async function fetchSelectedMovieData(selectedMovieId) {
     const url = `${omdbUrl}&i=${selectedMovieId}&plot=full`;
-    
+
     try {
 
         const response = await fetch(url);
@@ -316,7 +336,7 @@ async function fetchSelectedMovieData(selectedMovieId) {
 
         window.loadItemDetails && window.loadItemDetails(data)
 
-    } catch(e) {
+    } catch (e) {
         console.log('Error in fetchSelectedMovieData: ', e)
     }
 }
@@ -325,8 +345,12 @@ async function fetchSelectedMovieData(selectedMovieId) {
 /** To close the opened dropdown of search items */
 document.body.addEventListener('click', e => handleBlurForAutocompleteList(e))
 
-function handleBlurForAutocompleteList (e) {
-    if(searchDiv.getAttribute(ATTR_SEARCH_LIST_IS_OPEN) === 'true') {
+function handleBlurForAutocompleteList(e) {
+    /** close the list; only if it 'add to favorite' is not clicked and still the list open*/
+    if (
+        e?.target.id && !e.target.id.includes('watchlist-btn') &&
+        searchDiv.getAttribute(ATTR_SEARCH_LIST_IS_OPEN) === 'true'
+    ) {
         searchDiv.style.display = "none"
         searchDiv.setAttribute(ATTR_SEARCH_LIST_IS_OPEN, 'false')
     }

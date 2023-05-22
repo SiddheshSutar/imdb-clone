@@ -88,15 +88,19 @@
     color: #cacaca;
 }
 
-#watchlist-btn {
+.watchlist-btn button {
     background-color: var(--yellow);
     color: black;
     border-color: var(--yellow);
     font-weight: bold;
 }
 
-#watchlist-btn:hover {
+.watchlist-btn button.btn-primary:hover ,
+.watchlist-btn button.btn-primary:focus {
     opacity: 0.7;
+    color: rgb(61, 60, 60);
+    background-color: rgb(182, 182, 55);
+    border-color: rgb(182, 182, 55);
 }
 
 #search-result-container .card {
