@@ -54,7 +54,7 @@ const handleMainSearch = debounce((e) => {
 
 window.handleBannerItemClick = (e, imdbIdPassed = null) => {
     const idToSearch = imdbIdPassed ? imdbIdPassed : e.target.getAttribute('data-id')
-    window.open(`/moviedetails.html?q=${idToSearch}`, '_self')
+    window.open(`/html/moviedetails.html?q=${idToSearch}`, '_self')
 }
 
 async function fetchMovies(search) {
@@ -293,7 +293,8 @@ async function fetchSelectedMovieData(selectedMovieId) {
 }
 
 function showSearchOnHomepage() {
-    if(location.href === 'http://127.0.0.1:5500/') mainSearchBtn.style.display = "block"
+    if(location.href === 'http://127.0.0.1:5500/html/')
+        mainSearchBtn.style.display = "block"
     else mainSearchBtn.style.display = "none"
 }
 
