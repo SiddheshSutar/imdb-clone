@@ -85,7 +85,7 @@ window.renderEmptyFavorites  = (shouldRender = false) => {
 const handleMainSearch = debounce((e) => {
 
     // no value OR validation for min length to ht search
-    if (!e.target.value || e.target.value && e.target.value.length < 3) {
+    if (!e.target.value || (e.target.value && e.target.value.length < 3)) {
         searchDiv.style.display = "none"
         searchDiv.setAttribute(ATTR_SEARCH_LIST_IS_OPEN, 'false')
         return
@@ -106,7 +106,7 @@ window.handleBannerItemClick = (e, imdbIdPassed = null) => {
     }
 }
 
-/** @API : fetch all movies */
+/** @API : fetch all movies with corresponding search keyword */
 async function fetchMovies(search) {
 
     const url = `${omdbUrl}&s=${search}`;
@@ -387,6 +387,7 @@ function createMovielist(response) {
     }
 }
 mainSearchBtn.addEventListener('input', e => handleMainSearch(e))
+mainSearchBtn.addEventListener('keydown', e => handleMainSearch(e))
 
 /** @API : function to fetch the data of either banner or favorite section on clicked movie */
 async function fetchSelectedMovieData(selectedMovieId) {
